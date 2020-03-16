@@ -1,4 +1,4 @@
-package com.haroldekb.CostViewer;
+package com.haroldekb.costviewer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
