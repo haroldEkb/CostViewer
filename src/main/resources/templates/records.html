@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Каталог товаров</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Records' List</h1>
+
+    <h4 th:unless="${page.content.size() > 0}">There are no records</h4>
+    <table class="table table-hover" th:if="${page.content.size() > 0}">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Value</th>
+            <th>Date</th>
+            <th>Comment</th>
+            <th/>
+            <th/>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${page.content}">
+            <td th:text="${record.id}"/>
+            <td th:text="${record.value}"/>
+            <td th:text="${record.date}"/>
+            <td th:text="${record.comment}"/>
+
+            <td>
+                <a th:href="@{'/records/edit/' + ${record.id}}" class="btn btn-warning">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{'/records/delete/' + ${record.id}}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav th:if="${page.getTotalPages() > 0}" aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${!(page.getNumber() > 0) ? 'disabled' : ''}">
+                <a th:class="page-link" th:href="@{'/records/' + ${userId} + '?pageNumber=' + ${page.getNumber()} + ${filters}}"
+                   th:text="Prev"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${page.getNumber() + 1 == i ? 'active' : ''}"
+                th:each="i : ${#numbers.sequence(1, page.getTotalPages())}">
+                <a th:class="page-link" th:text="${i}" th:href="@{'/records/' + ${userId} + '?pageNumber=' + ${i} + ${filters}}"></a>
+            </li>
+
+            <li class="page-item" th:classappend="${!(page.getNumber() < page.getTotalPages() - 1) ? 'disabled' : ''}">
+                <a th:class="page-link" th:href="@{'/records/' + ${userId} + '?pageNumber=' + ${page.getNumber() + 2} + ${filters}}"
+                   th:text="Next"></a>
+            </li>
+        </ul>
+    </nav>
+
+
+</div>
+
+</body>
+</html>

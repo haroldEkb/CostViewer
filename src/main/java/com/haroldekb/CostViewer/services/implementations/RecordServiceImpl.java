@@ -6,6 +6,9 @@ import com.haroldekb.costviewer.repositories.RecordRepository;
 import com.haroldekb.costviewer.services.ParseService;
 import com.haroldekb.costviewer.services.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,6 +33,15 @@ public class RecordServiceImpl implements RecordService {
     @Autowired
     public void setRecordRepository(RecordRepository recordRepository) {
         this.recordRepository = recordRepository;
+    }
+
+    @Override
+    public List<Record> findRecordsByUserId(Long id) {
+        return recordRepository.findAllByUserId(id);
+    }
+
+    public Page<Record> findAllByPagingAndFiltering(Specification<Record> spec, Pageable pageable){
+        return recordRepository.findAll(spec, pageable);
     }
 
     @Override
